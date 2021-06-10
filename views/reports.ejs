@@ -1,0 +1,64 @@
+<%- include("_header") -%>
+<br>
+<h2>Reports</h2>
+
+<p>Select Report Type</p>
+
+<form action="/getReport" method="POST">
+    <select class="form-select" name="reportType" id="reportType" aria-label="Report Type Select">
+        <option value="1">All Customers - Sorted by Last Name, First Name</option>
+        <option value="2">All Customers - Sorted by Current Sale Decreasing</option>
+        <option value="3">Three Random Customers - Promotional Giveaway (Non Repeating)</option>
+    </select><br /><br />
+    <input type="submit" id="submit" value="Fetch Report" class="btn btn-primary " /> <br /><br />
+</form>
+
+<% if (type === "POST") { %>
+<% if (repType === "1") { %>
+<script>
+    document.getElementById("reportType").options[0].selected = true;
+</script>
+<% } else if (repType === "2") {%>
+<script>
+    document.getElementById("reportType").options[1].selected = true;
+</script>
+<% } else if (repType === "3") {%>
+<script>
+    document.getElementById("reportType").options[2].selected = true;
+</script>
+<% } %>
+<% if (trans === "Error") { %>
+<h3><%= msg %></h3>
+<% } else { %>
+<% if (data.length === 0) { %>
+<h3>No records found! </h3>
+<% } else { %>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>State</th>
+            <th>Sales YTD</th>
+            <th>Prev Years Sales</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% data.forEach(customer => { %>
+        <tr>
+            <td><%= customer.cusid %></td>
+            <td><%= customer.cusfname %></td>
+            <td><%= customer.cuslname %></td>
+            <td><%= customer.cusstate %></td>
+            <td><%= customer.cussaleytd %></td>
+            <td><%= customer.cussaleprev %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% } %>
+<% } %>
+<% } %>
+
+<%- include("_footer") -%>

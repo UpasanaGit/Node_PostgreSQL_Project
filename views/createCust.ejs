@@ -1,0 +1,31 @@
+<%- include("_header") -%>
+
+<h1>Add New Customer</h1>
+
+<form action="/createCust" method="post">
+    <div class="form-horizontal">
+        
+        <%- include("_field") -%>
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <input type="submit" value="Create" class="btn btn-primary " />
+                <input type="reset" value="Reset" class="btn btn-primary " />
+            </div>
+        </div>
+    </div>
+</form>
+
+<% if(type==="POST" ) { %>
+<% if (result.trans != "Error") {%>
+<h3><%= result.msg%></h3>
+<% } else { %>
+<h3>Error!</h3>
+<p>
+    <%= result.msg%>
+</p>
+<%} %>
+<% }%>
+
+<%- include("_footer") -%>
