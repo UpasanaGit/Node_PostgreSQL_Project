@@ -5,6 +5,8 @@ const dblib = require("./dblib.js");
 const path = require("path");
 const multer = require("multer");
 const upload = multer();
+const JOI = require("joi");
+const Joi = require("joi");
 
 // Add middleware to parse default urlencoded form
 app.use(express.urlencoded({
@@ -195,6 +197,13 @@ app.get("/exportData", async (req, res) => {
 
 // post exportData   
 app.post("/exportData", async (req, res) => {
+    const schema = Joi.object({
+                fname: Joi.string().min(5).required()});
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
     var fileName = req.body.fname + ".txt";
     const totRecs = await dblib.getTotalRecords();
     const customer = {
